@@ -1,15 +1,17 @@
 import { Col, Form, Input, Row, message } from "antd";
 import { useAuth } from "../../context/AuthProvider/useAuth";
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
     const auth = useAuth()
     //const history = useHistory()
+    const navigate = useNavigate();
 
     async function onFinish (values: {email: string, password: string}) {
         try {
             await auth.authenticate(values.email, values.password);
 
-           
+            navigate("/profile");
         } catch (error) {
             message.error("E-mail ou Senha inválida!")
         }
@@ -22,7 +24,7 @@ export const Login = () => {
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          onFinish={() => {}}
+          onFinish={onFinish}
         >
           <Form.Item label="E-mail" name="email">
             <Input />
